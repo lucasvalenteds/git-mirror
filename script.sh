@@ -25,4 +25,17 @@ synchronize() {
     done
 }
 
-synchronize
+operation="$1"
+
+case "$operation" in
+    clone | synchronize)
+        "$operation"
+        exit 0
+        ;;
+    *)
+        printf "Unknown operation %s\n" "$operation"
+        printf "Usage: ./script.sh <clone|synchronize>\n"
+        exit 1
+        ;;
+esac
+
