@@ -3,6 +3,7 @@
 repositories="repositories.txt"
 repositories_directory="repositories"
 
+[ ! -f "$repositories" ] && touch "$repositories"
 [ ! -d "$repositories_directory" ] && mkdir "$repositories_directory"
 
 clone() {
