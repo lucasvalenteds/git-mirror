@@ -9,18 +9,18 @@ repositories_directory="repositories"
 clone() {
     awk --field-separator=" " '{print $1" "$2" "$3}' "$repositories_list" \
         | while read -r hostname username repository
-        do
-            url="https://$hostname/$username/$repository"
-            directory="$repositories_directory/${username}__${repository}"
+    do
+        url="https://$hostname/$username/$repository"
+        directory="$repositories_directory/${username}__${repository}"
 
-            if [ -d "$directory/.git" ]
-            then
-                printf "Repository already cloned. Skipping %s\n" "$directory"
-                continue
-            fi
+        if [ -d "$directory/.git" ]
+        then
+            printf "Repository already cloned. Skipping %s\n" "$directory"
+            continue
+        fi
 
-            git clone "$url" "$directory"
-        done
+        git clone "$url" "$directory"
+    done
 }
 
 synchronize() {
