@@ -1,10 +1,10 @@
 #!/bin/sh
 
-repositories_list="repositories.txt"
-repositories_directory="repositories"
+repositories_list="${REPOSITORIES_LIST:=repositories.txt}"
+repositories_directory="${REPOSITORIES_DIRECTORY:=repositories}"
 
 [ ! -f "$repositories_list" ] && touch "$repositories_list"
-[ ! -d "$repositories_directory" ] && mkdir "$repositories_directory"
+[ ! -d "$repositories_directory" ] && mkdir --parents "$repositories_directory"
 
 clone() {
     awk --field-separator=" " '{print $1" "$2" "$3}' "$repositories_list" \
@@ -28,7 +28,7 @@ sync() {
     do
         printf "Syncing %s\n" "$directory"
 
-        git --git-dir="$directory/.git" pull
+        git --work-tree="$directory" --git-dir="$directory/.git" pull
     done
 }
 
