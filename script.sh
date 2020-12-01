@@ -23,10 +23,10 @@ clone() {
     done
 }
 
-synchronize() {
+sync() {
     for directory in "$repositories_directory"/*
     do
-        printf "Synchronizing %s\n" "$directory"
+        printf "Syncing %s\n" "$directory"
 
         git --git-dir="$directory/.git" pull
     done
@@ -35,13 +35,13 @@ synchronize() {
 operation="$1"
 
 case "$operation" in
-    clone | synchronize)
+    clone | sync)
         "$operation"
         exit 0
         ;;
     *)
         printf "Unknown operation %s\n" "$operation"
-        printf "Usage: ./script.sh <clone|synchronize>\n"
+        printf "Usage: ./script.sh <clone|sync>\n"
         exit 1
         ;;
 esac
