@@ -16,4 +16,13 @@ clone() {
         done
 }
 
-clone
+synchronize() {
+    for directory in "$repositories_directory"/*
+    do
+        printf "Synchronizing %s\n" "$directory"
+
+        git --git-dir="$directory/.git" pull
+    done
+}
+
+synchronize
