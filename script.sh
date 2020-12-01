@@ -1,13 +1,13 @@
 #!/bin/sh
 
-repositories="repositories.txt"
+repositories_list="repositories.txt"
 repositories_directory="repositories"
 
-[ ! -f "$repositories" ] && touch "$repositories"
+[ ! -f "$repositories_list" ] && touch "$repositories_list"
 [ ! -d "$repositories_directory" ] && mkdir "$repositories_directory"
 
 clone() {
-    awk --field-separator=" " '{print $1" "$2" "$3}' "$repositories" \
+    awk --field-separator=" " '{print $1" "$2" "$3}' "$repositories_list" \
         | while read -r hostname username repository
         do
             url="https://$hostname/$username/$repository"
