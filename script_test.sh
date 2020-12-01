@@ -62,22 +62,22 @@ assert_file_is_not_empty() {
 }
 
 delete_test_workspace() {
-    rm --force --recursive "$REPOSITORIES_DIRECTORY"
-    rm --force "$REPOSITORIES_LIST"
+	rm --force --recursive "$REPOSITORIES_DIRECTORY"
+	rm --force "$REPOSITORIES_LIST"
 
-    assert_directory_does_not_exists "$REPOSITORIES_DIRECTORY"
-    assert_file_does_not_exists "$REPOSITORIES_LIST"
+	assert_directory_does_not_exists "$REPOSITORIES_DIRECTORY"
+	assert_file_does_not_exists "$REPOSITORIES_LIST"
 }
 
 test_creating_file_and_directory() {
-    (delete_test_workspace)
+	(delete_test_workspace)
 
-    (assert_file_does_not_exists "$REPOSITORIES_LIST")
-    (assert_directory_does_not_exists "$REPOSITORIES_DIRECTORY")
+	(assert_file_does_not_exists "$REPOSITORIES_LIST")
+	(assert_directory_does_not_exists "$REPOSITORIES_DIRECTORY")
 
-    (./script.sh) > /dev/null 2>&1
+	(./script.sh) > /dev/null 2>&1
 
-    if [ "$?" ]
+	if [ "$?" ]
 	then
 		(assert_file_exists "$REPOSITORIES_LIST")
 		(assert_file_is_empty "$REPOSITORIES_LIST")
@@ -92,20 +92,20 @@ test_creating_file_and_directory() {
 }
 
 test_cloning_repository() {
-    (delete_test_workspace)
+	(delete_test_workspace)
 
-    echo "github.com octocat hello-world" > "$REPOSITORIES_LIST"
-    (assert_file_exists "$REPOSITORIES_LIST")
-    (assert_file_is_not_empty "$REPOSITORIES_LIST")
+	echo "github.com octocat hello-world" > "$REPOSITORIES_LIST"
+	(assert_file_exists "$REPOSITORIES_LIST")
+	(assert_file_is_not_empty "$REPOSITORIES_LIST")
 
-    (./script.sh clone)
+	(./script.sh clone)
 
-    if [ "$?" ]
+	if [ "$?" ]
 	then
 		(assert_file_exists "$REPOSITORIES_LIST")
 		(assert_file_is_not_empty "$REPOSITORIES_LIST")
 		(assert_directory_exists "$REPOSITORIES_DIRECTORY")
-        (assert_directory_is_not_empty "$REPOSITORIES_DIRECTORY")
+		(assert_directory_is_not_empty "$REPOSITORIES_DIRECTORY")
 		printf "PASSED: test_cloning_repository\n"
 		exit 0
 	else
@@ -116,29 +116,29 @@ test_cloning_repository() {
 }
 
 clone_repo_and_reset_last_commit() {
-    username="octocat"
-    repository="hello-world"
-    directory="$REPOSITORIES_DIRECTORY/${username}__${repository}"
+	username="octocat"
+	repository="hello-world"
+	directory="$REPOSITORIES_DIRECTORY/${username}__${repository}"
 
-    echo "github.com octocat hello-world" > "$REPOSITORIES_LIST"
-    (./script.sh clone)
+	echo "github.com octocat hello-world" > "$REPOSITORIES_LIST"
+	(./script.sh clone)
 
-    git --git-dir="$directory/.git" --work-tree="$directory" reset HEAD~
-    git --git-dir="$directory/.git" --work-tree="$directory" restore -- .
+	git --git-dir="$directory/.git" --work-tree="$directory" reset HEAD~
+	git --git-dir="$directory/.git" --work-tree="$directory" restore -- .
 }
 
 test_syncing_repository() {
-    (delete_test_workspace)
-    (clone_repo_and_reset_last_commit)
+	(delete_test_workspace)
+	(clone_repo_and_reset_last_commit)
 
-    (./script.sh sync)
+	(./script.sh sync)
 
-    if [ "$?" ]
+	if [ "$?" ]
 	then
 		(assert_file_exists "$REPOSITORIES_LIST")
 		(assert_file_is_not_empty "$REPOSITORIES_LIST")
 		(assert_directory_exists "$REPOSITORIES_DIRECTORY")
-        (assert_directory_is_not_empty "$REPOSITORIES_DIRECTORY")
+		(assert_directory_is_not_empty "$REPOSITORIES_DIRECTORY")
 		printf "PASSED: test_syncing_repository\n"
 		exit 0
 	else
