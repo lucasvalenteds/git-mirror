@@ -12,8 +12,14 @@ clone() {
         do
             url="https://$hostname/$username/$repository"
             directory="$repositories_directory/${username}__${repository}"
-            git clone "$url" "$directory"
 
+            if [ -d "$directory/.git" ]
+            then
+                printf "Repository already cloned. Skipping %s\n" "$directory"
+                continue
+            fi
+
+            git clone "$url" "$directory"
         done
 }
 
